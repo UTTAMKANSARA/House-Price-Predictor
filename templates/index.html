@@ -1,0 +1,745 @@
+<!-- <!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+<!-- <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <title>House price predictor !!!</title>
+</head>
+
+<body class="bg-dark">
+  <div class="cointainer">
+    <div class="row">
+      <div class="card" style="width: 100%; height : 100%; margin-top: 50px">
+        <div class="card-header" style="text-align: center">
+          <h1> welcome to house price predictor</h1>
+
+        </div>
+        <div class="card-body">
+          <form method="post" accept-charset="utf-8">
+            <div class="col-md-6 form-group" style="text-align: end">
+              <label><b> Select the location</b></label>
+              <select class="select-picker form- control" id="location" name="location" required = "1">
+                 <option value="" disabled selected>Select Location</option>
+                {% for location in locations %}
+                    <option value="{{ location }}">{{ location }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="col-md-6 form-group" style="text-align:right">
+              <label><b>Enter the BHK</b></label>
+              <input type = "text" class="form- control" id="BHK" name="BHK" placeholder = "enter the bhk"></input>
+            </div>
+
+            <div class="col-md-6 form-group" style="text-align:end">
+              <label><b>Enter no. of bathroom</b></label>
+              <input type = "text" class="form- control" id="bath" name="bath" placeholder = "enter no. of bathroom"></input>
+            </div>
+
+            <div class="col-md-6 form-group" style="text-align: end">
+              <label><b>Enter square feet</b></label>
+              <input type = "text" class="form- control" id="total_sqft" name="total_sqft" placeholder = "enter square feet"></input>
+            </div>
+
+              <div class="col-md-6 form-group" style="text-align: end">
+              <button class="btn btn-primary form- control" onclick = "send_data()" >Predict price</button>
+            </div>
+
+
+          
+
+
+
+
+
+
+          </form>
+          <br>
+          <div class = "col-md-12" style = "text-align: center"></div>
+            <h3><span id = "prediction"></span></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+   <script>
+      function form_handler(event){
+          event.preventDefault();
+      }
+      function send_data()
+      {
+          document.querySelector('form').addEventListener('submit', form_handler);
+          var fd = new FormData(document.querySelector('form'));
+          var xhr = new XMLHttpRequest();
+          xhr.open ('POST','/predict',true);
+          document.getElementById("prediction").innerHTML = "wait predicting the price !!!"
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  document.getElementById("prediction").innerHTML ="Prediction: Rs "+xhr.responseText;
+              }
+          };
+          xhr.onload = function(){};
+          xhr.send(fd);
+      }
+  </script> -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body> -->
+
+<!-- </html> --> -->
+<!-- --> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+
+  <title>Bangalore House Price Predictor</title>
+
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --warm-white: #FDFAF4;
+      --charcoal: #1C1C1E;
+      --deep-brown: #2C1810;
+      --amber: #C8873A;
+      --gold: #D4A853;
+      --sage: #7B8B6F;
+      --rust: #A85430;
+      --light-amber: #F0D5A8;
+      --glass: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--charcoal);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Architectural background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200, 135, 58, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 135, 58, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Ambient glow blobs */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(200, 135, 58, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-blob-2 {
+      position: fixed;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(123, 139, 111, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .main-wrapper {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* Header area */
+    .header-section {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeSlideDown 0.8s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .eyebrow::before,
+    .eyebrow::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--amber);
+      opacity: 0.5;
+    }
+
+    .main-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 6vw, 68px);
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1.05;
+      letter-spacing: -1px;
+    }
+
+    .main-title span {
+      color: var(--amber);
+      font-style: italic;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: rgba(245, 240, 232, 0.45);
+      margin-top: 14px;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+    }
+
+    /* Card */
+    .predictor-card {
+      width: 100%;
+      max-width: 580px;
+      background: rgba(28, 28, 30, 0.85);
+      border: 1px solid rgba(200, 135, 58, 0.2);
+      border-radius: 4px;
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+      animation: fadeSlideUp 0.9s ease 0.15s both;
+      box-shadow:
+        0 0 0 1px rgba(200, 135, 58, 0.05),
+        0 40px 80px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .card-top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--rust), var(--amber), var(--gold));
+    }
+
+    .card-inner {
+      padding: 44px 48px 48px;
+    }
+
+    /* Form labels */
+    .field-group {
+      margin-bottom: 28px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(200, 135, 58, 0.8);
+      margin-bottom: 10px;
+    }
+
+    /* Select */
+    select.styled-select {
+      width: 100%;
+      background: #2a2a2c;
+      border: 1px solid rgba(200, 135, 58, 0.2);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      padding: 14px 18px;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C8873A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      cursor: pointer;
+      transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s;
+      outline: none;
+    }
+
+    select.styled-select option {
+      background: #2a2a2c;
+      color: var(--cream);
+    }
+
+    select.styled-select:focus {
+      border-color: var(--amber);
+      background-color: #2e2a24;
+      box-shadow: 0 0 0 3px rgba(200, 135, 58, 0.1);
+    }
+
+    select.styled-select:hover {
+      border-color: rgba(200, 135, 58, 0.4);
+    }
+
+    /* Text inputs */
+    input.styled-input {
+      width: 100%;
+      background: #2a2a2c;
+      border: 1px solid rgba(200, 135, 58, 0.2);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      padding: 14px 18px;
+      transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s;
+      outline: none;
+    }
+
+    input.styled-input::placeholder {
+      color: rgba(245, 240, 232, 0.2);
+      font-weight: 300;
+    }
+
+    input.styled-input:focus {
+      border-color: var(--amber);
+      background-color: #2e2a24;
+      box-shadow: 0 0 0 3px rgba(200, 135, 58, 0.1);
+    }
+
+    input.styled-input:hover {
+      border-color: rgba(200, 135, 58, 0.4);
+    }
+
+    /* Divider between fields */
+    .fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* Button */
+    .predict-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--rust) 0%, var(--amber) 60%, var(--gold) 100%);
+      border: none;
+      border-radius: 2px;
+      color: var(--deep-brown);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 17px 24px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.3s;
+      margin-top: 8px;
+    }
+
+    .predict-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .price-in-words {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(200, 135, 58, 0.7);
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    .predict-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(200, 135, 58, 0.35);
+    }
+
+    .predict-btn:hover::before {
+      opacity: 1;
+    }
+
+    .predict-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Loader shimmer on button */
+    .predict-btn.loading {
+      pointer-events: none;
+      animation: shimmer 1.4s infinite;
+    }
+
+    @keyframes shimmer {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.65;
+      }
+    }
+
+    /* Result panel */
+    .result-panel {
+      margin-top: 32px;
+      padding: 24px 28px;
+      background: rgba(200, 135, 58, 0.06);
+      border: 1px solid rgba(200, 135, 58, 0.25);
+      border-radius: 2px;
+      display: none;
+      animation: fadeIn 0.5s ease both;
+    }
+
+    .result-panel.visible {
+      display: block;
+    }
+
+    .result-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(200, 135, 58, 0.7);
+      margin-bottom: 6px;
+    }
+
+    .result-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+
+    .result-value.waiting {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(245, 240, 232, 0.5);
+      font-style: italic;
+    }
+
+    /* Decorative corner marks */
+    .corner-mark {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: rgba(200, 135, 58, 0.3);
+      border-style: solid;
+    }
+
+    .corner-mark.tl {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .corner-mark.tr {
+      top: -1px;
+      right: -1px;
+      border-width: 2px 2px 0 0;
+    }
+
+    .corner-mark.bl {
+      bottom: -1px;
+      left: -1px;
+      border-width: 0 0 2px 2px;
+    }
+
+    .corner-mark.br {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .predictor-card {
+      position: relative;
+    }
+
+    /* Footer */
+    .footer-note {
+      margin-top: 32px;
+      font-size: 12px;
+      color: rgba(245, 240, 232, 0.2);
+      letter-spacing: 0.5px;
+      text-align: center;
+      animation: fadeIn 1s ease 0.5s both;
+    }
+
+    /* Animations */
+    @keyframes fadeSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(32px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Separator line between location and grid */
+    .field-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200, 135, 58, 0.15), transparent);
+      margin: 4px 0 28px;
+    }
+
+    @media (max-width: 520px) {
+      .card-inner {
+        padding: 32px 28px 36px;
+      }
+
+      .fields-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ambient-blob-2"></div>
+
+  <div class="main-wrapper">
+
+    <!-- Header -->
+    <div class="header-section">
+      <div class="eyebrow">Bangalore Real Estate</div>
+      <h1 class="main-title">Bangalore <span>House</span><br>Price Predictor</h1>
+      <p class="subtitle">Enter property details to get an instant valuation estimate for Bangalore</p>
+    </div>
+
+    <!-- Card -->
+    <div class="predictor-card">
+      <div class="corner-mark tl"></div>
+      <div class="corner-mark tr"></div>
+      <div class="corner-mark bl"></div>
+      <div class="corner-mark br"></div>
+      <div class="card-top-bar"></div>
+      <div class="card-inner">
+
+        <form method="post" accept-charset="utf-8" id="main-form">
+
+          <!-- Location -->
+          <div class="field-group">
+            <label class="field-label" for="location">Location</label>
+            <select class="styled-select" id="location" name="location" required="1">
+              <option value="" disabled selected>Select a location</option>
+              {% for location in locations %}
+              <option value="{{ location }}">{{ location }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="field-separator"></div>
+
+          <!-- BHK + Bathroom row -->
+          <div class="fields-grid">
+            <div class="field-group">
+              <label class="field-label" for="BHK">BHK</label>
+              <input type="text" class="styled-input" id="BHK" name="BHK" placeholder="e.g. 3">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="bath">Bathrooms</label>
+              <input type="text" class="styled-input" id="bath" name="bath" placeholder="e.g. 2">
+            </div>
+          </div>
+
+          <!-- Square Feet -->
+          <div class="field-group">
+            <label class="field-label" for="total_sqft">Total Square Feet</label>
+            <input type="text" class="styled-input" id="total_sqft" name="total_sqft" placeholder="e.g. 1200">
+          </div>
+
+          <!-- Button -->
+          <button class="predict-btn" id="predict-btn" type="button" onclick="send_data()">
+            Predict Price
+          </button>
+
+        </form>
+
+        <!-- Result -->
+        <div class="result-panel" id="result-panel">
+          <div class="result-label">Estimated Value</div>
+          <div class="result-value" id="prediction"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="footer-note">Estimates are based on Bangalore historical data and may vary from market prices.</p>
+
+  </div>
+
+  <script>
+    function form_handler(event) {
+      event.preventDefault();
+    }
+
+    function send_data() {
+      document.querySelector('form').addEventListener('submit', form_handler);
+      var fd = new FormData(document.querySelector('form'));
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/predict', true);
+
+      // Show waiting state
+      var panel = document.getElementById('result-panel');
+      var predEl = document.getElementById('prediction');
+      var btn = document.getElementById('predict-btn');
+
+      panel.classList.add('visible');
+      predEl.className = 'result-value waiting';
+      predEl.innerHTML = 'Calculating…';
+      btn.classList.add('loading');
+      btn.textContent = 'Predicting…';
+
+
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            // Success
+            predEl.className = 'result-value';
+            var price = parseFloat(xhr.responseText);
+            predEl.innerHTML = '&#x20B9;&nbsp;' + xhr.responseText +
+              '<div class="price-in-words">' + numberToWords(price) + ' Rupees</div>';
+          } else {
+            // Error — show the message from Flask
+            predEl.className = 'result-value waiting';
+            predEl.innerHTML = '⚠ ' + xhr.responseText;
+          }
+          btn.classList.remove('loading');
+          btn.textContent = 'Predict Price';
+        }
+      };
+      // xhr.onreadystatechange = function () {
+      // if (xhr.readyState === XMLHttpRequest.DONE) {
+      // predEl.className = 'result-value';
+      // predEl.innerHTML = '&#x20B9;&nbsp;' + xhr.responseText;
+      // predEl.className = 'result-value';
+      // var price = parseFloat(xhr.responseText);
+      // predEl.innerHTML = '&#x20B9;&nbsp;' + xhr.responseText + '<div class="price-in-words">' + numberToWords(price) + ' Rupees</div>';
+      // btn.classList.remove('loading');
+      // btn.textContent = 'Predict Price';
+      // }
+      // };
+      xhr.onload = function () { };
+      xhr.send(fd);
+    }
+    function numberToWords(num) {
+      if (isNaN(num)) return '';
+      num = Math.round(num);
+      if (num >= 10000000) return (num / 10000000).toFixed(2).replace(/\.00$/, '') + ' Crore';
+      if (num >= 100000) return (num / 100000).toFixed(2).replace(/\.00$/, '') + ' Lakh';
+      if (num >= 1000) return (num / 1000).toFixed(2).replace(/\.00$/, '') + ' Thousand';
+      return num.toString();
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
