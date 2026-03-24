@@ -73,8 +73,8 @@ git --version
 
 ### Step 2 — Clone the Repository
 
-```bash
-git clone https://github.com/YOUR_USERNAME/bangalore-house-predictor.git
+```
+git clone https://github.com/UTTAMKANSARA/House-Price-Predictor.git
 ```
 Then navigate into the project folder:
 ```bash
