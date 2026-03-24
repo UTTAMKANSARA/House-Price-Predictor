@@ -78,6 +78,6 @@ def predict():
     except Exception as e:
         return f"Something went wrong: {str(e)}", 500
 
-
+import os
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=False, port=int(os.environ.get("PORT", 5001)))
